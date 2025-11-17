@@ -13,7 +13,7 @@ export const stepsKk = [
             id: 'fullName',
             label: 'Атыңыз және тегіңіз:',
             type: 'text',
-            placeholder: 'Мысалы: Иван Иванов',
+            placeholder: 'Мысалы: Алихан Тохтаров',
             required: true,
           },
           {

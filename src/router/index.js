@@ -4,6 +4,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      redirect: '/brief',
+    },
+    {
       path: '/brief',
       name: 'brief',
       component: () => import('@/views/Brief.vue'),

@@ -13,7 +13,7 @@ export const steps = [
             id: "fullName",
             label: "Ваше имя и фамилия:",
             type: "text",
-            placeholder: "Иван Иванов",
+            placeholder: "Например: Алихан Тохтаров",
             required: true,
           },
           {

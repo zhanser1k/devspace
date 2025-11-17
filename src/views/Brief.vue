@@ -2,6 +2,7 @@
 <template>
   <div class="min-h-screen bg-slate-100 px-4 py-8 flex justify-center">
     <div class="w-full max-w-5xl bg-white rounded-2xl shadow-lg px-6 py-6 sm:px-8 sm:py-8">
+      <h1 class="text-2xl font-semibold text-slate-900 mb-4">DevSpace.kz</h1>
       <header class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 class="text-2xl font-semibold text-slate-900">
@@ -242,14 +243,14 @@
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  {{ isSubmitting ? 'Отправка...' : 'Отправить бриф' }}
+                  {{ isSubmitting ? t.submitting : t.submit }}
                 </button>
               </div>
             </div>
           </div>
         </div>
         <p v-if="sent" class="mt-4 text-sm text-emerald-600">
-          Спасибо! Бриф отправлен. Мы свяжемся с вами в ближайшее время.
+          {{ t.sent }}
         </p>
       </form>
     </div>
@@ -445,8 +446,10 @@ function clearFieldError(fieldId) {
 function prepareDataForSheets() {
   const data = {}
 
-  // Проходим по всем шагам и полям, заменяя id на label
-  for (const step of uiSteps.value) {
+  // Для Google Sheets всегда используем русскую конфигурацию шагов,
+  // чтобы заголовки колонок (и значения вариантов) были на русском,
+  // независимо от языка, выбранного в UI.
+  for (const step of stepsRu) {
     if (!step.sections) continue
 
     for (const section of step.sections) {
@@ -460,21 +463,21 @@ function prepareDataForSheets() {
           continue
         }
 
-        // Используем label как ключ
+        // Русский label как имя колонки
         const columnName = field.label || field.id
 
         // Форматируем значение
         let formattedValue = value
 
         if (field.type === 'checkbox-multi' && Array.isArray(value)) {
-          // Для checkbox-multi: конвертируем value в label
+          // Для checkbox-multi: конвертируем value в РУССКИЕ label
           const labels = value.map((val) => {
             const option = field.options?.find((opt) => opt.value === val)
             return option ? option.label : val
           })
           formattedValue = labels.join(', ')
         } else if (field.type === 'radio' && field.options) {
-          // Для radio: находим label выбранной опции
+          // Для radio: находим РУССКИЙ label выбранной опции
           const option = field.options.find((opt) => opt.value === value)
           formattedValue = option ? option.label : value
         } else if (Array.isArray(value)) {
